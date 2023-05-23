@@ -1,19 +1,39 @@
 
-# {Company} Python Library
+# Persona Python Library
 
-[![pypi](https://img.shields.io/pypi/v/{company}.svg)](https://pypi.python.org/pypi/{company})
+[![pypi](https://img.shields.io/pypi/v/fern-persona.svg)](https://pypi.python.org/pypi/fern-persona)
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen)](https://github.com/fern-api/fern)
 
 ## Documentation
 
-API documentation is available at <{docs_url}>.
+API documentation is available [here](https://docs.withpersona.com/reference/introduction).
+
+## Installation
+
+Add this dependency to your project's build file:
+
+```bash
+pip install fern-persona
+# or
+poetry add fern-persona
+```
 
 ## Usage
 
-Check out the [sample app](.sample-app/app.py) which consumes this SDK!
+```python
+from persona.client import Persona
+
+persona_client = Persona(api_key="MY_API_KEY")
+```
+
+## Async client
+
+This SDK also includes an async client, which supports the `await` syntax:
 
 ```python
-TODO
+from persona.client import AsyncPersona
+
+persona_client = AsyncPersona(api_key="MY_API_KEY")
 ```
 
 ## Beta status
