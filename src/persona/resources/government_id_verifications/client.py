@@ -11,8 +11,13 @@ from ...core.api_error import ApiError
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.remove_none_from_headers import remove_none_from_headers
 from ...environment import PersonaEnvironment
-from ...types.government_id_verifications_create_request_data import GovernmentIdVerificationsCreateRequestData
-from ...types.government_id_verifications_create_response import GovernmentIdVerificationsCreateResponse
+from ...errors.bad_request_error import BadRequestError
+from ...types.create_a_gov_id_verification_request_data import CreateAGovIdVerificationRequestData
+from ...types.create_a_gov_id_verification_response import CreateAGovIdVerificationResponse
+from ...types.retrieve_a_government_id_verification_response import RetrieveAGovernmentIdVerificationResponse
+from ...types.submit_a_government_id_verification_response import SubmitAGovernmentIdVerificationResponse
+from ...types.update_a_government_id_verification_request_data import UpdateAGovernmentIdVerificationRequestData
+from ...types.update_a_government_id_verification_response import UpdateAGovernmentIdVerificationResponse
 
 
 class GovernmentIdVerificationsClient:
@@ -20,13 +25,13 @@ class GovernmentIdVerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    def create(
+    def create_a_gov_id_verification(
         self,
         *,
-        data: GovernmentIdVerificationsCreateRequestData,
+        data: CreateAGovIdVerificationRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> GovernmentIdVerificationsCreateResponse:
+    ) -> CreateAGovIdVerificationResponse:
         _response = httpx.request(
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "verification/government-ids"),
@@ -37,7 +42,80 @@ class GovernmentIdVerificationsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(GovernmentIdVerificationsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateAGovIdVerificationResponse, _response.json())  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def submit_a_government_id_verification(
+        self,
+        verification_id: str,
+        *,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> SubmitAGovernmentIdVerificationResponse:
+        _response = httpx.request(
+            "POST",
+            urllib.parse.urljoin(
+                f"{self._environment.value}/", f"verification/government-ids/{verification_id}/submit"
+            ),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+            ),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(SubmitAGovernmentIdVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def update_a_government_id_verification(
+        self,
+        verification_id: str,
+        *,
+        data: UpdateAGovernmentIdVerificationRequestData,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> UpdateAGovernmentIdVerificationResponse:
+        _response = httpx.request(
+            "PATCH",
+            urllib.parse.urljoin(f"{self._environment.value}/", f"verifications/government-ids/{verification_id}"),
+            json=jsonable_encoder({"data": data}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+            ),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(UpdateAGovernmentIdVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def retrieve_a_government_id_verification(
+        self, verification_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveAGovernmentIdVerificationResponse:
+        _response = httpx.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._environment.value}/", f"verification/government-ids/{verification_id}"),
+            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(RetrieveAGovernmentIdVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -50,13 +128,13 @@ class AsyncGovernmentIdVerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    async def create(
+    async def create_a_gov_id_verification(
         self,
         *,
-        data: GovernmentIdVerificationsCreateRequestData,
+        data: CreateAGovIdVerificationRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> GovernmentIdVerificationsCreateResponse:
+    ) -> CreateAGovIdVerificationResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
@@ -72,7 +150,91 @@ class AsyncGovernmentIdVerificationsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(GovernmentIdVerificationsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateAGovIdVerificationResponse, _response.json())  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def submit_a_government_id_verification(
+        self,
+        verification_id: str,
+        *,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> SubmitAGovernmentIdVerificationResponse:
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "POST",
+                urllib.parse.urljoin(
+                    f"{self._environment.value}/", f"verification/government-ids/{verification_id}/submit"
+                ),
+                headers=remove_none_from_headers(
+                    {
+                        "Key-Inflection": key_inflection,
+                        "Idempotency-Key": idempotency_key,
+                        "Authorization": self.api_key,
+                    }
+                ),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(SubmitAGovernmentIdVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def update_a_government_id_verification(
+        self,
+        verification_id: str,
+        *,
+        data: UpdateAGovernmentIdVerificationRequestData,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> UpdateAGovernmentIdVerificationResponse:
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "PATCH",
+                urllib.parse.urljoin(f"{self._environment.value}/", f"verifications/government-ids/{verification_id}"),
+                json=jsonable_encoder({"data": data}),
+                headers=remove_none_from_headers(
+                    {
+                        "Key-Inflection": key_inflection,
+                        "Idempotency-Key": idempotency_key,
+                        "Authorization": self.api_key,
+                    }
+                ),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(UpdateAGovernmentIdVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def retrieve_a_government_id_verification(
+        self, verification_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveAGovernmentIdVerificationResponse:
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "GET",
+                urllib.parse.urljoin(f"{self._environment.value}/", f"verification/government-ids/{verification_id}"),
+                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(RetrieveAGovernmentIdVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:

@@ -12,9 +12,9 @@ from ...core.jsonable_encoder import jsonable_encoder
 from ...core.remove_none_from_headers import remove_none_from_headers
 from ...environment import PersonaEnvironment
 from ...errors.bad_request_error import BadRequestError
-from ...types.document_verifications_create_request_data import DocumentVerificationsCreateRequestData
-from ...types.document_verifications_create_response import DocumentVerificationsCreateResponse
-from ...types.document_verifications_submit_response import DocumentVerificationsSubmitResponse
+from ...types.create_a_document_verification_request_data import CreateADocumentVerificationRequestData
+from ...types.create_a_document_verification_response import CreateADocumentVerificationResponse
+from ...types.submit_a_document_verification_response import SubmitADocumentVerificationResponse
 
 
 class DocumentVerificationsClient:
@@ -22,13 +22,13 @@ class DocumentVerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    def create(
+    def create_a_document_verification(
         self,
         *,
-        data: DocumentVerificationsCreateRequestData,
+        data: CreateADocumentVerificationRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentVerificationsCreateResponse:
+    ) -> CreateADocumentVerificationResponse:
         _response = httpx.request(
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "verification/documents"),
@@ -39,20 +39,20 @@ class DocumentVerificationsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentVerificationsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateADocumentVerificationResponse, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def submit(
+    def submit_a_document_verification(
         self,
         verification_id: str,
         *,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentVerificationsSubmitResponse:
+    ) -> SubmitADocumentVerificationResponse:
         _response = httpx.request(
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verification/documents/{verification_id}/submit"),
@@ -62,7 +62,7 @@ class DocumentVerificationsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentVerificationsSubmitResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(SubmitADocumentVerificationResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -71,7 +71,9 @@ class DocumentVerificationsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def retrieve(self, verification_id: str, *, key_inflection: typing.Optional[str] = None) -> None:
+    def retrieve_a_document_verification(
+        self, verification_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> None:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verification/documents/{verification_id}"),
@@ -94,13 +96,13 @@ class AsyncDocumentVerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    async def create(
+    async def create_a_document_verification(
         self,
         *,
-        data: DocumentVerificationsCreateRequestData,
+        data: CreateADocumentVerificationRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentVerificationsCreateResponse:
+    ) -> CreateADocumentVerificationResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
@@ -116,20 +118,20 @@ class AsyncDocumentVerificationsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentVerificationsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateADocumentVerificationResponse, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def submit(
+    async def submit_a_document_verification(
         self,
         verification_id: str,
         *,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentVerificationsSubmitResponse:
+    ) -> SubmitADocumentVerificationResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
@@ -144,7 +146,7 @@ class AsyncDocumentVerificationsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentVerificationsSubmitResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(SubmitADocumentVerificationResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -153,7 +155,9 @@ class AsyncDocumentVerificationsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def retrieve(self, verification_id: str, *, key_inflection: typing.Optional[str] = None) -> None:
+    async def retrieve_a_document_verification(
+        self, verification_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> None:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",

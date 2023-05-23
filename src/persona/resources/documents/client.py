@@ -12,12 +12,12 @@ from ...core.jsonable_encoder import jsonable_encoder
 from ...core.remove_none_from_headers import remove_none_from_headers
 from ...environment import PersonaEnvironment
 from ...errors.bad_request_error import BadRequestError
-from ...types.documents_create_request_data import DocumentsCreateRequestData
-from ...types.documents_create_response import DocumentsCreateResponse
-from ...types.documents_retrieve_response import DocumentsRetrieveResponse
-from ...types.documents_submit_response import DocumentsSubmitResponse
-from ...types.documents_update_request_data import DocumentsUpdateRequestData
-from ...types.documents_update_response import DocumentsUpdateResponse
+from ...types.create_a_document_request_data import CreateADocumentRequestData
+from ...types.create_a_document_response import CreateADocumentResponse
+from ...types.retrieve_a_document_response import RetrieveADocumentResponse
+from ...types.submit_a_document_response import SubmitADocumentResponse
+from ...types.update_a_document_request_data import UpdateADocumentRequestData
+from ...types.update_a_document_response import UpdateADocumentResponse
 
 
 class DocumentsClient:
@@ -25,7 +25,9 @@ class DocumentsClient:
         self._environment = environment
         self.api_key = api_key
 
-    def retrieve(self, document_id: str, *, key_inflection: typing.Optional[str] = None) -> DocumentsRetrieveResponse:
+    def retrieve_a_document(
+        self, document_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveADocumentResponse:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"documents/{document_id}"),
@@ -33,7 +35,7 @@ class DocumentsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentsRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveADocumentResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -42,13 +44,13 @@ class DocumentsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(
+    def create_a_document(
         self,
         *,
-        data: DocumentsCreateRequestData,
+        data: CreateADocumentRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentsCreateResponse:
+    ) -> CreateADocumentResponse:
         _response = httpx.request(
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "document/generics"),
@@ -59,7 +61,7 @@ class DocumentsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateADocumentResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -68,14 +70,14 @@ class DocumentsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def update(
+    def update_a_document(
         self,
         document_id: str,
         *,
-        data: DocumentsUpdateRequestData,
+        data: UpdateADocumentRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentsUpdateResponse:
+    ) -> UpdateADocumentResponse:
         _response = httpx.request(
             "PATCH",
             urllib.parse.urljoin(f"{self._environment.value}/", f"document/generics/{document_id}"),
@@ -86,7 +88,7 @@ class DocumentsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentsUpdateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(UpdateADocumentResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -95,13 +97,13 @@ class DocumentsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def submit(
+    def submit_a_document(
         self,
         document_id: str,
         *,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentsSubmitResponse:
+    ) -> SubmitADocumentResponse:
         _response = httpx.request(
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", f"document/generics/{document_id}/submit"),
@@ -111,7 +113,7 @@ class DocumentsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentsSubmitResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(SubmitADocumentResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -126,9 +128,9 @@ class AsyncDocumentsClient:
         self._environment = environment
         self.api_key = api_key
 
-    async def retrieve(
+    async def retrieve_a_document(
         self, document_id: str, *, key_inflection: typing.Optional[str] = None
-    ) -> DocumentsRetrieveResponse:
+    ) -> RetrieveADocumentResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
@@ -137,7 +139,7 @@ class AsyncDocumentsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentsRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveADocumentResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -146,13 +148,13 @@ class AsyncDocumentsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create(
+    async def create_a_document(
         self,
         *,
-        data: DocumentsCreateRequestData,
+        data: CreateADocumentRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentsCreateResponse:
+    ) -> CreateADocumentResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
@@ -168,7 +170,7 @@ class AsyncDocumentsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateADocumentResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -177,14 +179,14 @@ class AsyncDocumentsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def update(
+    async def update_a_document(
         self,
         document_id: str,
         *,
-        data: DocumentsUpdateRequestData,
+        data: UpdateADocumentRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentsUpdateResponse:
+    ) -> UpdateADocumentResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "PATCH",
@@ -200,7 +202,7 @@ class AsyncDocumentsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentsUpdateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(UpdateADocumentResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -209,13 +211,13 @@ class AsyncDocumentsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def submit(
+    async def submit_a_document(
         self,
         document_id: str,
         *,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DocumentsSubmitResponse:
+    ) -> SubmitADocumentResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
@@ -230,7 +232,7 @@ class AsyncDocumentsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DocumentsSubmitResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(SubmitADocumentResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:

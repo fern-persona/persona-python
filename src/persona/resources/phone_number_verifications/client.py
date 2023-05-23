@@ -11,8 +11,17 @@ from ...core.api_error import ApiError
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.remove_none_from_headers import remove_none_from_headers
 from ...environment import PersonaEnvironment
-from ...types.phone_number_verifications_create_request_data import PhoneNumberVerificationsCreateRequestData
-from ...types.phone_number_verifications_create_response import PhoneNumberVerificationsCreateResponse
+from ...errors.bad_request_error import BadRequestError
+from ...types.confirm_a_phone_number_verification_request_data import ConfirmAPhoneNumberVerificationRequestData
+from ...types.confirm_a_phone_number_verification_response import ConfirmAPhoneNumberVerificationResponse
+from ...types.create_a_phone_number_verification_request_data import CreateAPhoneNumberVerificationRequestData
+from ...types.create_a_phone_number_verification_response import CreateAPhoneNumberVerificationResponse
+from ...types.retrieve_a_phone_number_verification_response import RetrieveAPhoneNumberVerificationResponse
+from ...types.send_an_sms_request_data import SendAnSmsRequestData
+from ...types.send_an_sms_response import SendAnSmsResponse
+
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
 
 
 class PhoneNumberVerificationsClient:
@@ -20,13 +29,13 @@ class PhoneNumberVerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    def create(
+    def create_a_phone_number_verification(
         self,
         *,
-        data: PhoneNumberVerificationsCreateRequestData,
+        data: CreateAPhoneNumberVerificationRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> PhoneNumberVerificationsCreateResponse:
+    ) -> CreateAPhoneNumberVerificationResponse:
         _response = httpx.request(
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "verification/phone-numbers"),
@@ -37,7 +46,73 @@ class PhoneNumberVerificationsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PhoneNumberVerificationsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateAPhoneNumberVerificationResponse, _response.json())  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def confirm_a_phone_number_verification(
+        self, verification_id: str, *, data: ConfirmAPhoneNumberVerificationRequestData
+    ) -> ConfirmAPhoneNumberVerificationResponse:
+        _response = httpx.request(
+            "POST",
+            urllib.parse.urljoin(
+                f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}/confirm"
+            ),
+            json=jsonable_encoder({"data": data}),
+            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(ConfirmAPhoneNumberVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def retrieve_a_phone_number_verification(
+        self, verification_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveAPhoneNumberVerificationResponse:
+        _response = httpx.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}"),
+            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(RetrieveAPhoneNumberVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def send_an_sms(
+        self, verification_id: str, *, data: typing.Optional[SendAnSmsRequestData] = OMIT
+    ) -> SendAnSmsResponse:
+        _request: typing.Dict[str, typing.Any] = {}
+        if data is not OMIT:
+            _request["data"] = data
+        _response = httpx.request(
+            "POST",
+            urllib.parse.urljoin(
+                f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}/send-confirmation-code"
+            ),
+            json=jsonable_encoder(_request),
+            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(SendAnSmsResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -50,13 +125,13 @@ class AsyncPhoneNumberVerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    async def create(
+    async def create_a_phone_number_verification(
         self,
         *,
-        data: PhoneNumberVerificationsCreateRequestData,
+        data: CreateAPhoneNumberVerificationRequestData,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> PhoneNumberVerificationsCreateResponse:
+    ) -> CreateAPhoneNumberVerificationResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
@@ -72,7 +147,77 @@ class AsyncPhoneNumberVerificationsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(PhoneNumberVerificationsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateAPhoneNumberVerificationResponse, _response.json())  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def confirm_a_phone_number_verification(
+        self, verification_id: str, *, data: ConfirmAPhoneNumberVerificationRequestData
+    ) -> ConfirmAPhoneNumberVerificationResponse:
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "POST",
+                urllib.parse.urljoin(
+                    f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}/confirm"
+                ),
+                json=jsonable_encoder({"data": data}),
+                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(ConfirmAPhoneNumberVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def retrieve_a_phone_number_verification(
+        self, verification_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveAPhoneNumberVerificationResponse:
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "GET",
+                urllib.parse.urljoin(f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}"),
+                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(RetrieveAPhoneNumberVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def send_an_sms(
+        self, verification_id: str, *, data: typing.Optional[SendAnSmsRequestData] = OMIT
+    ) -> SendAnSmsResponse:
+        _request: typing.Dict[str, typing.Any] = {}
+        if data is not OMIT:
+            _request["data"] = data
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "POST",
+                urllib.parse.urljoin(
+                    f"{self._environment.value}/",
+                    f"verification/phone-numbers/{verification_id}/send-confirmation-code",
+                ),
+                json=jsonable_encoder(_request),
+                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(SendAnSmsResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:

@@ -12,23 +12,23 @@ from ...core.jsonable_encoder import jsonable_encoder
 from ...core.remove_none_from_headers import remove_none_from_headers
 from ...environment import PersonaEnvironment
 from ...errors.bad_request_error import BadRequestError
-from ...types.importers_import_account_request_data import ImportersImportAccountRequestData
-from ...types.importers_import_account_response import ImportersImportAccountResponse
-from ...types.importers_import_email_address_lists_request_data import ImportersImportEmailAddressListsRequestData
-from ...types.importers_import_email_address_lists_response import ImportersImportEmailAddressListsResponse
-from ...types.importers_import_geolocation_lists_request_data import ImportersImportGeolocationListsRequestData
-from ...types.importers_import_geolocation_lists_response import ImportersImportGeolocationListsResponse
-from ...types.importers_import_government_id_number_lists_request_data import (
-    ImportersImportGovernmentIdNumberListsRequestData,
-)
-from ...types.importers_import_government_id_number_lists_response import ImportersImportGovernmentIdNumberListsResponse
-from ...types.importers_import_ip_address_lists_request_data import ImportersImportIpAddressListsRequestData
-from ...types.importers_import_ip_address_lists_response import ImportersImportIpAddressListsResponse
-from ...types.importers_import_name_lists_request_data import ImportersImportNameListsRequestData
-from ...types.importers_import_name_lists_response import ImportersImportNameListsResponse
-from ...types.importers_import_phone_number_lists_request_data import ImportersImportPhoneNumberListsRequestData
-from ...types.importers_import_phone_number_lists_response import ImportersImportPhoneNumberListsResponse
-from ...types.importers_retrieve_response import ImportersRetrieveResponse
+from ...types.import_an_account_request_data import ImportAnAccountRequestData
+from ...types.import_an_account_response import ImportAnAccountResponse
+from ...types.import_email_address_lists_request_data import ImportEmailAddressListsRequestData
+from ...types.import_email_address_lists_response import ImportEmailAddressListsResponse
+from ...types.import_face_lists_request_data import ImportFaceListsRequestData
+from ...types.import_face_lists_response import ImportFaceListsResponse
+from ...types.import_geolocation_lists_request_data import ImportGeolocationListsRequestData
+from ...types.import_geolocation_lists_response import ImportGeolocationListsResponse
+from ...types.import_government_id_number_lists_request_data import ImportGovernmentIdNumberListsRequestData
+from ...types.import_government_id_number_lists_response import ImportGovernmentIdNumberListsResponse
+from ...types.import_ip_address_lists_request_data import ImportIpAddressListsRequestData
+from ...types.import_ip_address_lists_response import ImportIpAddressListsResponse
+from ...types.import_name_lists_request_data import ImportNameListsRequestData
+from ...types.import_name_lists_response import ImportNameListsResponse
+from ...types.import_phone_number_lists_request_data import ImportPhoneNumberListsRequestData
+from ...types.import_phone_number_lists_response import ImportPhoneNumberListsResponse
+from ...types.retrieve_an_importer_response import RetrieveAnImporterResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -39,7 +39,7 @@ class ImportersClient:
         self._environment = environment
         self.api_key = api_key
 
-    def retrieve(self, importer_id: str) -> ImportersRetrieveResponse:
+    def retrieve_an_importer(self, importer_id: str) -> RetrieveAnImporterResponse:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"importers/{importer_id}"),
@@ -47,7 +47,7 @@ class ImportersClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveAnImporterResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -56,9 +56,7 @@ class ImportersClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def import_account(
-        self, *, data: typing.Optional[ImportersImportAccountRequestData] = OMIT
-    ) -> ImportersImportAccountResponse:
+    def import_an_account(self, *, data: typing.Optional[ImportAnAccountRequestData] = OMIT) -> ImportAnAccountResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -70,7 +68,7 @@ class ImportersClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportAccountResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportAnAccountResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -80,8 +78,8 @@ class ImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def import_email_address_lists(
-        self, *, data: typing.Optional[ImportersImportEmailAddressListsRequestData] = OMIT
-    ) -> ImportersImportEmailAddressListsResponse:
+        self, *, data: typing.Optional[ImportEmailAddressListsRequestData] = OMIT
+    ) -> ImportEmailAddressListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -93,7 +91,7 @@ class ImportersClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportEmailAddressListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportEmailAddressListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -103,8 +101,8 @@ class ImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def import_geolocation_lists(
-        self, *, data: typing.Optional[ImportersImportGeolocationListsRequestData] = OMIT
-    ) -> ImportersImportGeolocationListsResponse:
+        self, *, data: typing.Optional[ImportGeolocationListsRequestData] = OMIT
+    ) -> ImportGeolocationListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -116,7 +114,7 @@ class ImportersClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportGeolocationListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportGeolocationListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -126,8 +124,8 @@ class ImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def import_government_id_number_lists(
-        self, *, data: typing.Optional[ImportersImportGovernmentIdNumberListsRequestData] = OMIT
-    ) -> ImportersImportGovernmentIdNumberListsResponse:
+        self, *, data: typing.Optional[ImportGovernmentIdNumberListsRequestData] = OMIT
+    ) -> ImportGovernmentIdNumberListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -139,7 +137,7 @@ class ImportersClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportGovernmentIdNumberListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportGovernmentIdNumberListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -149,8 +147,8 @@ class ImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def import_ip_address_lists(
-        self, *, data: typing.Optional[ImportersImportIpAddressListsRequestData] = OMIT
-    ) -> ImportersImportIpAddressListsResponse:
+        self, *, data: typing.Optional[ImportIpAddressListsRequestData] = OMIT
+    ) -> ImportIpAddressListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -162,7 +160,7 @@ class ImportersClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportIpAddressListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportIpAddressListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -171,9 +169,7 @@ class ImportersClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def import_name_lists(
-        self, *, data: typing.Optional[ImportersImportNameListsRequestData] = OMIT
-    ) -> ImportersImportNameListsResponse:
+    def import_name_lists(self, *, data: typing.Optional[ImportNameListsRequestData] = OMIT) -> ImportNameListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -185,7 +181,7 @@ class ImportersClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportNameListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportNameListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -195,8 +191,8 @@ class ImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     def import_phone_number_lists(
-        self, *, data: typing.Optional[ImportersImportPhoneNumberListsRequestData] = OMIT
-    ) -> ImportersImportPhoneNumberListsResponse:
+        self, *, data: typing.Optional[ImportPhoneNumberListsRequestData] = OMIT
+    ) -> ImportPhoneNumberListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -208,7 +204,28 @@ class ImportersClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportPhoneNumberListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportPhoneNumberListsResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def import_face_lists(self, *, data: typing.Optional[ImportFaceListsRequestData] = OMIT) -> ImportFaceListsResponse:
+        _request: typing.Dict[str, typing.Any] = {}
+        if data is not OMIT:
+            _request["data"] = data
+        _response = httpx.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/faces"),
+            json=jsonable_encoder(_request),
+            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(ImportFaceListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -223,7 +240,7 @@ class AsyncImportersClient:
         self._environment = environment
         self.api_key = api_key
 
-    async def retrieve(self, importer_id: str) -> ImportersRetrieveResponse:
+    async def retrieve_an_importer(self, importer_id: str) -> RetrieveAnImporterResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
@@ -232,7 +249,7 @@ class AsyncImportersClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveAnImporterResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -241,9 +258,9 @@ class AsyncImportersClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def import_account(
-        self, *, data: typing.Optional[ImportersImportAccountRequestData] = OMIT
-    ) -> ImportersImportAccountResponse:
+    async def import_an_account(
+        self, *, data: typing.Optional[ImportAnAccountRequestData] = OMIT
+    ) -> ImportAnAccountResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -256,7 +273,7 @@ class AsyncImportersClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportAccountResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportAnAccountResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -266,8 +283,8 @@ class AsyncImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def import_email_address_lists(
-        self, *, data: typing.Optional[ImportersImportEmailAddressListsRequestData] = OMIT
-    ) -> ImportersImportEmailAddressListsResponse:
+        self, *, data: typing.Optional[ImportEmailAddressListsRequestData] = OMIT
+    ) -> ImportEmailAddressListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -280,7 +297,7 @@ class AsyncImportersClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportEmailAddressListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportEmailAddressListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -290,8 +307,8 @@ class AsyncImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def import_geolocation_lists(
-        self, *, data: typing.Optional[ImportersImportGeolocationListsRequestData] = OMIT
-    ) -> ImportersImportGeolocationListsResponse:
+        self, *, data: typing.Optional[ImportGeolocationListsRequestData] = OMIT
+    ) -> ImportGeolocationListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -304,7 +321,7 @@ class AsyncImportersClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportGeolocationListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportGeolocationListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -314,8 +331,8 @@ class AsyncImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def import_government_id_number_lists(
-        self, *, data: typing.Optional[ImportersImportGovernmentIdNumberListsRequestData] = OMIT
-    ) -> ImportersImportGovernmentIdNumberListsResponse:
+        self, *, data: typing.Optional[ImportGovernmentIdNumberListsRequestData] = OMIT
+    ) -> ImportGovernmentIdNumberListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -328,7 +345,7 @@ class AsyncImportersClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportGovernmentIdNumberListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportGovernmentIdNumberListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -338,8 +355,8 @@ class AsyncImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def import_ip_address_lists(
-        self, *, data: typing.Optional[ImportersImportIpAddressListsRequestData] = OMIT
-    ) -> ImportersImportIpAddressListsResponse:
+        self, *, data: typing.Optional[ImportIpAddressListsRequestData] = OMIT
+    ) -> ImportIpAddressListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -352,7 +369,7 @@ class AsyncImportersClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportIpAddressListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportIpAddressListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -362,8 +379,8 @@ class AsyncImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def import_name_lists(
-        self, *, data: typing.Optional[ImportersImportNameListsRequestData] = OMIT
-    ) -> ImportersImportNameListsResponse:
+        self, *, data: typing.Optional[ImportNameListsRequestData] = OMIT
+    ) -> ImportNameListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -376,7 +393,7 @@ class AsyncImportersClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportNameListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportNameListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -386,8 +403,8 @@ class AsyncImportersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
     async def import_phone_number_lists(
-        self, *, data: typing.Optional[ImportersImportPhoneNumberListsRequestData] = OMIT
-    ) -> ImportersImportPhoneNumberListsResponse:
+        self, *, data: typing.Optional[ImportPhoneNumberListsRequestData] = OMIT
+    ) -> ImportPhoneNumberListsResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -400,7 +417,31 @@ class AsyncImportersClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ImportersImportPhoneNumberListsResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ImportPhoneNumberListsResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def import_face_lists(
+        self, *, data: typing.Optional[ImportFaceListsRequestData] = OMIT
+    ) -> ImportFaceListsResponse:
+        _request: typing.Dict[str, typing.Any] = {}
+        if data is not OMIT:
+            _request["data"] = data
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "POST",
+                urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/faces"),
+                json=jsonable_encoder(_request),
+                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(ImportFaceListsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:

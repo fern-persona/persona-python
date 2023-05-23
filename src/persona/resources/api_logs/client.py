@@ -11,7 +11,7 @@ from ...core.api_error import ApiError
 from ...core.remove_none_from_headers import remove_none_from_headers
 from ...environment import PersonaEnvironment
 from ...errors.not_found_error import NotFoundError
-from ...types.api_logs_retrieve_response import ApiLogsRetrieveResponse
+from ...types.retrieve_an_api_log_response import RetrieveAnApiLogResponse
 
 
 class ApiLogsClient:
@@ -19,7 +19,7 @@ class ApiLogsClient:
         self._environment = environment
         self.api_key = api_key
 
-    def list(
+    def list_all_api_logs(
         self,
         *,
         page_before: typing.Optional[str] = None,
@@ -42,7 +42,9 @@ class ApiLogsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def retrieve(self, api_log_id: str, *, key_inflection: typing.Optional[str] = None) -> ApiLogsRetrieveResponse:
+    def retrieve_an_api_log(
+        self, api_log_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveAnApiLogResponse:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"api-logs/{api_log_id}"),
@@ -50,7 +52,7 @@ class ApiLogsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ApiLogsRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveAnApiLogResponse, _response.json())  # type: ignore
         if _response.status_code == 404:
             raise NotFoundError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -65,7 +67,7 @@ class AsyncApiLogsClient:
         self._environment = environment
         self.api_key = api_key
 
-    async def list(
+    async def list_all_api_logs(
         self,
         *,
         page_before: typing.Optional[str] = None,
@@ -89,9 +91,9 @@ class AsyncApiLogsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def retrieve(
+    async def retrieve_an_api_log(
         self, api_log_id: str, *, key_inflection: typing.Optional[str] = None
-    ) -> ApiLogsRetrieveResponse:
+    ) -> RetrieveAnApiLogResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
@@ -100,7 +102,7 @@ class AsyncApiLogsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ApiLogsRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveAnApiLogResponse, _response.json())  # type: ignore
         if _response.status_code == 404:
             raise NotFoundError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:

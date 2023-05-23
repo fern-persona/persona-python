@@ -16,7 +16,7 @@ class VerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    def retrieve(self, verification_id: str, *, key_inflection: typing.Optional[str] = None) -> None:
+    def retrieve_a_verification(self, verification_id: str, *, key_inflection: typing.Optional[str] = None) -> None:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verifications/{verification_id}"),
@@ -37,7 +37,9 @@ class AsyncVerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    async def retrieve(self, verification_id: str, *, key_inflection: typing.Optional[str] = None) -> None:
+    async def retrieve_a_verification(
+        self, verification_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> None:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",

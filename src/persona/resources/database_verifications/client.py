@@ -11,7 +11,10 @@ from ...core.api_error import ApiError
 from ...core.jsonable_encoder import jsonable_encoder
 from ...core.remove_none_from_headers import remove_none_from_headers
 from ...environment import PersonaEnvironment
-from ...types.database_verifications_create_response import DatabaseVerificationsCreateResponse
+from ...errors.bad_request_error import BadRequestError
+from ...types.create_a_database_verification_1_response import CreateADatabaseVerification1Response
+from ...types.create_a_database_verification_response import CreateADatabaseVerificationResponse
+from ...types.retrieve_a_database_verification_response import RetrieveADatabaseVerificationResponse
 
 
 class DatabaseVerificationsClient:
@@ -19,24 +22,66 @@ class DatabaseVerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    def create(
+    def create_a_database_verification(
         self,
         *,
-        data: typing.Any,
+        request: typing.Dict[str, typing.Any],
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DatabaseVerificationsCreateResponse:
+    ) -> CreateADatabaseVerificationResponse:
         _response = httpx.request(
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "verification/databases"),
-            json=jsonable_encoder({"data": data}),
+            json=jsonable_encoder(request),
             headers=remove_none_from_headers(
                 {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
             ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DatabaseVerificationsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateADatabaseVerificationResponse, _response.json())  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def create_a_database_verification_1(
+        self,
+        verification_id: str,
+        *,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> CreateADatabaseVerification1Response:
+        _response = httpx.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._environment.value}/", f"verification/databases/{verification_id}/submit"),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+            ),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(CreateADatabaseVerification1Response, _response.json())  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def retrieve_a_database_verification(
+        self, verification_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveADatabaseVerificationResponse:
+        _response = httpx.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._environment.value}/", f"verification/databases/{verification_id}"),
+            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(RetrieveADatabaseVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -49,18 +94,18 @@ class AsyncDatabaseVerificationsClient:
         self._environment = environment
         self.api_key = api_key
 
-    async def create(
+    async def create_a_database_verification(
         self,
         *,
-        data: typing.Any,
+        request: typing.Dict[str, typing.Any],
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> DatabaseVerificationsCreateResponse:
+    ) -> CreateADatabaseVerificationResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "verification/databases"),
-                json=jsonable_encoder({"data": data}),
+                json=jsonable_encoder(request),
                 headers=remove_none_from_headers(
                     {
                         "Key-Inflection": key_inflection,
@@ -71,7 +116,55 @@ class AsyncDatabaseVerificationsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(DatabaseVerificationsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateADatabaseVerificationResponse, _response.json())  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def create_a_database_verification_1(
+        self,
+        verification_id: str,
+        *,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> CreateADatabaseVerification1Response:
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "POST",
+                urllib.parse.urljoin(f"{self._environment.value}/", f"verification/databases/{verification_id}/submit"),
+                headers=remove_none_from_headers(
+                    {
+                        "Key-Inflection": key_inflection,
+                        "Idempotency-Key": idempotency_key,
+                        "Authorization": self.api_key,
+                    }
+                ),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(CreateADatabaseVerification1Response, _response.json())  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def retrieve_a_database_verification(
+        self, verification_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveADatabaseVerificationResponse:
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "GET",
+                urllib.parse.urljoin(f"{self._environment.value}/", f"verification/databases/{verification_id}"),
+                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(RetrieveADatabaseVerificationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:

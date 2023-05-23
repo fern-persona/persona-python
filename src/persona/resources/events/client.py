@@ -11,8 +11,8 @@ from ...core.api_error import ApiError
 from ...core.remove_none_from_headers import remove_none_from_headers
 from ...environment import PersonaEnvironment
 from ...errors.bad_request_error import BadRequestError
-from ...types.events_list_all_response import EventsListAllResponse
-from ...types.events_retrieve_response import EventsRetrieveResponse
+from ...types.list_all_events_response import ListAllEventsResponse
+from ...types.retrieve_an_event_response import RetrieveAnEventResponse
 
 
 class EventsClient:
@@ -20,7 +20,7 @@ class EventsClient:
         self._environment = environment
         self.api_key = api_key
 
-    def list_all(
+    def list_all_events(
         self,
         *,
         page_before: typing.Optional[str] = None,
@@ -30,7 +30,7 @@ class EventsClient:
         filter_object_id: typing.Optional[str] = None,
         filter_id: typing.Optional[str] = None,
         key_inflection: typing.Optional[str] = None,
-    ) -> EventsListAllResponse:
+    ) -> ListAllEventsResponse:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", "events"),
@@ -46,7 +46,7 @@ class EventsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EventsListAllResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ListAllEventsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -55,7 +55,9 @@ class EventsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def retrieve(self, event_id: str, *, key_inflection: typing.Optional[str] = None) -> EventsRetrieveResponse:
+    def retrieve_an_event(
+        self, event_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveAnEventResponse:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"events/{event_id}"),
@@ -63,7 +65,7 @@ class EventsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EventsRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveAnEventResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -78,7 +80,7 @@ class AsyncEventsClient:
         self._environment = environment
         self.api_key = api_key
 
-    async def list_all(
+    async def list_all_events(
         self,
         *,
         page_before: typing.Optional[str] = None,
@@ -88,7 +90,7 @@ class AsyncEventsClient:
         filter_object_id: typing.Optional[str] = None,
         filter_id: typing.Optional[str] = None,
         key_inflection: typing.Optional[str] = None,
-    ) -> EventsListAllResponse:
+    ) -> ListAllEventsResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
@@ -105,7 +107,7 @@ class AsyncEventsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EventsListAllResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ListAllEventsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -114,7 +116,9 @@ class AsyncEventsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def retrieve(self, event_id: str, *, key_inflection: typing.Optional[str] = None) -> EventsRetrieveResponse:
+    async def retrieve_an_event(
+        self, event_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveAnEventResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
@@ -123,7 +127,7 @@ class AsyncEventsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EventsRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveAnEventResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:

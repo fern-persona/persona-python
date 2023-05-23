@@ -15,15 +15,18 @@ from ...errors.bad_request_error import BadRequestError
 from ...errors.conflict_error import ConflictError
 from ...errors.not_found_error import NotFoundError
 from ...errors.unprocessable_entity_error import UnprocessableEntityError
-from ...types.accounts_consolidate_request_meta import AccountsConsolidateRequestMeta
-from ...types.accounts_create_request_data import AccountsCreateRequestData
-from ...types.accounts_create_response import AccountsCreateResponse
-from ...types.accounts_list_all_response import AccountsListAllResponse
-from ...types.accounts_redact_response import AccountsRedactResponse
-from ...types.accounts_retrieve_response import AccountsRetrieveResponse
-from ...types.accounts_update_request_data import AccountsUpdateRequestData
-from ...types.accounts_update_response import AccountsUpdateResponse
+from ...types.add_a_tag_1_request_meta import AddATag1RequestMeta
+from ...types.consolidate_into_an_account_request_meta import ConsolidateIntoAnAccountRequestMeta
+from ...types.create_an_account_request_data import CreateAnAccountRequestData
+from ...types.create_an_account_response import CreateAnAccountResponse
+from ...types.list_all_accounts_response import ListAllAccountsResponse
+from ...types.redact_an_account_response import RedactAnAccountResponse
+from ...types.remove_a_tag_1_request_meta import RemoveATag1RequestMeta
+from ...types.retrieve_an_account_response import RetrieveAnAccountResponse
+from ...types.set_all_tags_1_request_meta import SetAllTags1RequestMeta
 from ...types.unprocessable_entity_error_body import UnprocessableEntityErrorBody
+from ...types.update_an_account_request_data import UpdateAnAccountRequestData
+from ...types.update_an_account_response import UpdateAnAccountResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -34,7 +37,9 @@ class AccountsClient:
         self._environment = environment
         self.api_key = api_key
 
-    def retrieve(self, account_id: str, *, key_inflection: typing.Optional[str] = None) -> AccountsRetrieveResponse:
+    def retrieve_an_account(
+        self, account_id: str, *, key_inflection: typing.Optional[str] = None
+    ) -> RetrieveAnAccountResponse:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}"),
@@ -42,7 +47,7 @@ class AccountsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveAnAccountResponse, _response.json())  # type: ignore
         if _response.status_code == 404:
             raise NotFoundError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -51,14 +56,14 @@ class AccountsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def update(
+    def update_an_account(
         self,
         account_id: str,
         *,
-        data: typing.Optional[AccountsUpdateRequestData] = OMIT,
+        data: typing.Optional[UpdateAnAccountRequestData] = OMIT,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> AccountsUpdateResponse:
+    ) -> UpdateAnAccountResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -72,7 +77,7 @@ class AccountsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsUpdateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(UpdateAnAccountResponse, _response.json())  # type: ignore
         if _response.status_code == 409:
             raise ConflictError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -81,7 +86,9 @@ class AccountsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def redact(self, account_id: str, *, persona_version: typing.Optional[str] = None) -> AccountsRedactResponse:
+    def redact_an_account(
+        self, account_id: str, *, persona_version: typing.Optional[str] = None
+    ) -> RedactAnAccountResponse:
         _response = httpx.request(
             "DELETE",
             urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}"),
@@ -89,14 +96,14 @@ class AccountsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsRedactResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RedactAnAccountResponse, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def list_all(
+    def list_all_accounts(
         self,
         *,
         page_before: typing.Optional[str] = None,
@@ -104,7 +111,7 @@ class AccountsClient:
         page_size: typing.Optional[str] = None,
         filter_reference_id: typing.Optional[str] = None,
         key_inflection: typing.Optional[str] = None,
-    ) -> AccountsListAllResponse:
+    ) -> ListAllAccountsResponse:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", "accounts"),
@@ -118,20 +125,20 @@ class AccountsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsListAllResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ListAllAccountsResponse, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(
+    def create_an_account(
         self,
         *,
-        data: typing.Optional[AccountsCreateRequestData] = OMIT,
+        data: typing.Optional[CreateAnAccountRequestData] = OMIT,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> AccountsCreateResponse:
+    ) -> CreateAnAccountResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -145,7 +152,7 @@ class AccountsClient:
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateAnAccountResponse, _response.json())  # type: ignore
         if _response.status_code == 409:
             raise ConflictError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -154,11 +161,11 @@ class AccountsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def consolidate(
+    def consolidate_into_an_account(
         self,
         account_id: str,
         *,
-        meta: typing.Optional[AccountsConsolidateRequestMeta] = OMIT,
+        meta: typing.Optional[ConsolidateIntoAnAccountRequestMeta] = OMIT,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
     ) -> None:
@@ -190,15 +197,120 @@ class AccountsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def add_a_tag_1(
+        self,
+        account_id: str,
+        *,
+        meta: typing.Optional[AddATag1RequestMeta] = OMIT,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> None:
+        _request: typing.Dict[str, typing.Any] = {}
+        if meta is not OMIT:
+            _request["meta"] = meta
+        _response = httpx.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/add-tag"),
+            json=jsonable_encoder(_request),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+            ),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def remove_a_tag_1(
+        self,
+        account_id: str,
+        *,
+        meta: typing.Optional[RemoveATag1RequestMeta] = OMIT,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> None:
+        _request: typing.Dict[str, typing.Any] = {}
+        if meta is not OMIT:
+            _request["meta"] = meta
+        _response = httpx.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/remove-tag"),
+            json=jsonable_encoder(_request),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+            ),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def set_all_tags_1(
+        self,
+        account_id: str,
+        *,
+        meta: typing.Optional[SetAllTags1RequestMeta] = OMIT,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> None:
+        _request: typing.Dict[str, typing.Any] = {}
+        if meta is not OMIT:
+            _request["meta"] = meta
+        _response = httpx.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/set-tags"),
+            json=jsonable_encoder(_request),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+            ),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def print_an_inquiry_pdf(self, inquiry_id: str) -> None:
+        _response = httpx.request(
+            "GET",
+            urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/print"),
+            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            timeout=60,
+        )
+        if 200 <= _response.status_code < 300:
+            return
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
 
 class AsyncAccountsClient:
     def __init__(self, *, environment: PersonaEnvironment = PersonaEnvironment.DEFAULT, api_key: str):
         self._environment = environment
         self.api_key = api_key
 
-    async def retrieve(
+    async def retrieve_an_account(
         self, account_id: str, *, key_inflection: typing.Optional[str] = None
-    ) -> AccountsRetrieveResponse:
+    ) -> RetrieveAnAccountResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
@@ -207,7 +319,7 @@ class AsyncAccountsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsRetrieveResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RetrieveAnAccountResponse, _response.json())  # type: ignore
         if _response.status_code == 404:
             raise NotFoundError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -216,14 +328,14 @@ class AsyncAccountsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def update(
+    async def update_an_account(
         self,
         account_id: str,
         *,
-        data: typing.Optional[AccountsUpdateRequestData] = OMIT,
+        data: typing.Optional[UpdateAnAccountRequestData] = OMIT,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> AccountsUpdateResponse:
+    ) -> UpdateAnAccountResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -242,7 +354,7 @@ class AsyncAccountsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsUpdateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(UpdateAnAccountResponse, _response.json())  # type: ignore
         if _response.status_code == 409:
             raise ConflictError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -251,7 +363,9 @@ class AsyncAccountsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def redact(self, account_id: str, *, persona_version: typing.Optional[str] = None) -> AccountsRedactResponse:
+    async def redact_an_account(
+        self, account_id: str, *, persona_version: typing.Optional[str] = None
+    ) -> RedactAnAccountResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "DELETE",
@@ -260,14 +374,14 @@ class AsyncAccountsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsRedactResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(RedactAnAccountResponse, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def list_all(
+    async def list_all_accounts(
         self,
         *,
         page_before: typing.Optional[str] = None,
@@ -275,7 +389,7 @@ class AsyncAccountsClient:
         page_size: typing.Optional[str] = None,
         filter_reference_id: typing.Optional[str] = None,
         key_inflection: typing.Optional[str] = None,
-    ) -> AccountsListAllResponse:
+    ) -> ListAllAccountsResponse:
         async with httpx.AsyncClient() as _client:
             _response = await _client.request(
                 "GET",
@@ -290,20 +404,20 @@ class AsyncAccountsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsListAllResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(ListAllAccountsResponse, _response.json())  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def create(
+    async def create_an_account(
         self,
         *,
-        data: typing.Optional[AccountsCreateRequestData] = OMIT,
+        data: typing.Optional[CreateAnAccountRequestData] = OMIT,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
-    ) -> AccountsCreateResponse:
+    ) -> CreateAnAccountResponse:
         _request: typing.Dict[str, typing.Any] = {}
         if data is not OMIT:
             _request["data"] = data
@@ -322,7 +436,7 @@ class AsyncAccountsClient:
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(AccountsCreateResponse, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(CreateAnAccountResponse, _response.json())  # type: ignore
         if _response.status_code == 409:
             raise ConflictError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
         try:
@@ -331,11 +445,11 @@ class AsyncAccountsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def consolidate(
+    async def consolidate_into_an_account(
         self,
         account_id: str,
         *,
-        meta: typing.Optional[AccountsConsolidateRequestMeta] = OMIT,
+        meta: typing.Optional[ConsolidateIntoAnAccountRequestMeta] = OMIT,
         key_inflection: typing.Optional[str] = None,
         idempotency_key: typing.Optional[str] = None,
     ) -> None:
@@ -366,6 +480,127 @@ class AsyncAccountsClient:
             raise UnprocessableEntityError(
                 pydantic.parse_obj_as(UnprocessableEntityErrorBody, _response.json())  # type: ignore
             )
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def add_a_tag_1(
+        self,
+        account_id: str,
+        *,
+        meta: typing.Optional[AddATag1RequestMeta] = OMIT,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> None:
+        _request: typing.Dict[str, typing.Any] = {}
+        if meta is not OMIT:
+            _request["meta"] = meta
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "POST",
+                urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/add-tag"),
+                json=jsonable_encoder(_request),
+                headers=remove_none_from_headers(
+                    {
+                        "Key-Inflection": key_inflection,
+                        "Idempotency-Key": idempotency_key,
+                        "Authorization": self.api_key,
+                    }
+                ),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def remove_a_tag_1(
+        self,
+        account_id: str,
+        *,
+        meta: typing.Optional[RemoveATag1RequestMeta] = OMIT,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> None:
+        _request: typing.Dict[str, typing.Any] = {}
+        if meta is not OMIT:
+            _request["meta"] = meta
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "POST",
+                urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/remove-tag"),
+                json=jsonable_encoder(_request),
+                headers=remove_none_from_headers(
+                    {
+                        "Key-Inflection": key_inflection,
+                        "Idempotency-Key": idempotency_key,
+                        "Authorization": self.api_key,
+                    }
+                ),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def set_all_tags_1(
+        self,
+        account_id: str,
+        *,
+        meta: typing.Optional[SetAllTags1RequestMeta] = OMIT,
+        key_inflection: typing.Optional[str] = None,
+        idempotency_key: typing.Optional[str] = None,
+    ) -> None:
+        _request: typing.Dict[str, typing.Any] = {}
+        if meta is not OMIT:
+            _request["meta"] = meta
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "POST",
+                urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/set-tags"),
+                json=jsonable_encoder(_request),
+                headers=remove_none_from_headers(
+                    {
+                        "Key-Inflection": key_inflection,
+                        "Idempotency-Key": idempotency_key,
+                        "Authorization": self.api_key,
+                    }
+                ),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(typing.Any, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def print_an_inquiry_pdf(self, inquiry_id: str) -> None:
+        async with httpx.AsyncClient() as _client:
+            _response = await _client.request(
+                "GET",
+                urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/print"),
+                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                timeout=60,
+            )
+        if 200 <= _response.status_code < 300:
+            return
         try:
             _response_json = _response.json()
         except JSONDecodeError:
