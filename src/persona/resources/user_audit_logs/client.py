@@ -32,7 +32,7 @@ class UserAuditLogsClient:
             urllib.parse.urljoin(f"{self._environment.value}/", "user-audit-logs"),
             params={"page[before]": page_before, "page[after]": page_after, "page[size]": page_size},
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -51,7 +51,7 @@ class UserAuditLogsClient:
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"user-audit-logs/{user_audit_log_id}"),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -85,7 +85,7 @@ class AsyncUserAuditLogsClient:
                 urllib.parse.urljoin(f"{self._environment.value}/", "user-audit-logs"),
                 params={"page[before]": page_before, "page[after]": page_after, "page[size]": page_size},
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )
@@ -105,7 +105,7 @@ class AsyncUserAuditLogsClient:
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"user-audit-logs/{user_audit_log_id}"),
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )

@@ -39,7 +39,7 @@ class WorkflowsClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"workflows/{workflow_id}/trigger"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -75,7 +75,7 @@ class AsyncWorkflowsClient:
                 urllib.parse.urljoin(f"{self._environment.value}/", f"workflows/{workflow_id}/trigger"),
                 json=jsonable_encoder(_request),
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )

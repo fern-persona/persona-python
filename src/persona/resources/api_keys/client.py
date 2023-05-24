@@ -49,7 +49,7 @@ class ApiKeysClient:
                 "filter[name]": filter_name,
             },
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -69,7 +69,7 @@ class ApiKeysClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "api-keys"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -92,7 +92,7 @@ class ApiKeysClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", f"api-keys/{api_key_id}/expire"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -109,7 +109,7 @@ class ApiKeysClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"api-keys/{api_key_id}"),
-            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -132,7 +132,7 @@ class ApiKeysClient:
             "PATCH",
             urllib.parse.urljoin(f"{self._environment.value}/", f"api-keys/{api_key_id}"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -171,7 +171,7 @@ class AsyncApiKeysClient:
                     "filter[name]": filter_name,
                 },
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )
@@ -194,7 +194,7 @@ class AsyncApiKeysClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "api-keys"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -218,7 +218,7 @@ class AsyncApiKeysClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"api-keys/{api_key_id}/expire"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -236,7 +236,7 @@ class AsyncApiKeysClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"api-keys/{api_key_id}"),
-                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -260,7 +260,7 @@ class AsyncApiKeysClient:
                 "PATCH",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"api-keys/{api_key_id}"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:

@@ -21,7 +21,7 @@ class VerificationsClient:
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verifications/{verification_id}"),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -47,7 +47,7 @@ class AsyncVerificationsClient:
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"verifications/{verification_id}"),
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )

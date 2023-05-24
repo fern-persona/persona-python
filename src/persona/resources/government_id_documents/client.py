@@ -39,7 +39,7 @@ class GovernmentIdDocumentsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -70,7 +70,7 @@ class GovernmentIdDocumentsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -99,7 +99,7 @@ class GovernmentIdDocumentsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -136,7 +136,7 @@ class AsyncGovernmentIdDocumentsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -168,7 +168,7 @@ class AsyncGovernmentIdDocumentsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -198,7 +198,7 @@ class AsyncGovernmentIdDocumentsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,

@@ -50,7 +50,7 @@ class PhoneCarrierDatabaseVerificationsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -75,7 +75,7 @@ class PhoneCarrierDatabaseVerificationsClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "verification/database-phone-carriers"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -97,7 +97,7 @@ class PhoneCarrierDatabaseVerificationsClient:
                 f"{self._environment.value}/", f"verification/database-phone-carriers/{verification_id}"
             ),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -134,7 +134,7 @@ class AsyncPhoneCarrierDatabaseVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -160,7 +160,7 @@ class AsyncPhoneCarrierDatabaseVerificationsClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "verification/database-phone-carriers"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -183,7 +183,7 @@ class AsyncPhoneCarrierDatabaseVerificationsClient:
                     f"{self._environment.value}/", f"verification/database-phone-carriers/{verification_id}"
                 ),
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )

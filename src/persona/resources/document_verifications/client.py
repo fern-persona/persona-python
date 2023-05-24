@@ -37,7 +37,7 @@ class DocumentVerificationsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -64,7 +64,7 @@ class DocumentVerificationsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -86,7 +86,7 @@ class DocumentVerificationsClient:
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verification/documents/{verification_id}"),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -122,7 +122,7 @@ class AsyncDocumentVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -150,7 +150,7 @@ class AsyncDocumentVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -173,7 +173,7 @@ class AsyncDocumentVerificationsClient:
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"verification/documents/{verification_id}"),
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )

@@ -40,7 +40,7 @@ class GovernmentIdVerificationsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -69,7 +69,7 @@ class GovernmentIdVerificationsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -100,7 +100,7 @@ class GovernmentIdVerificationsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -122,7 +122,7 @@ class GovernmentIdVerificationsClient:
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verification/government-ids/{verification_id}"),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -158,7 +158,7 @@ class AsyncGovernmentIdVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -188,7 +188,7 @@ class AsyncGovernmentIdVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -220,7 +220,7 @@ class AsyncGovernmentIdVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -243,7 +243,7 @@ class AsyncGovernmentIdVerificationsClient:
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"verification/government-ids/{verification_id}"),
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )

@@ -44,7 +44,7 @@ class EmailAddressVerificationsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -69,7 +69,7 @@ class EmailAddressVerificationsClient:
                 f"{self._environment.value}/", f"verification/email-addresses/{verification_id}/send-confirmation-code"
             ),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -91,7 +91,7 @@ class EmailAddressVerificationsClient:
                 f"{self._environment.value}/", f"verification/email-addresses/{verification_id}/confirm"
             ),
             json=jsonable_encoder({"data": data}),
-            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -111,7 +111,7 @@ class EmailAddressVerificationsClient:
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verification/email-address/{verification_id}"),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -147,7 +147,7 @@ class AsyncEmailAddressVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -174,7 +174,7 @@ class AsyncEmailAddressVerificationsClient:
                     f"verification/email-addresses/{verification_id}/send-confirmation-code",
                 ),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -197,7 +197,7 @@ class AsyncEmailAddressVerificationsClient:
                     f"{self._environment.value}/", f"verification/email-addresses/{verification_id}/confirm"
                 ),
                 json=jsonable_encoder({"data": data}),
-                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -218,7 +218,7 @@ class AsyncEmailAddressVerificationsClient:
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"verification/email-address/{verification_id}"),
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )

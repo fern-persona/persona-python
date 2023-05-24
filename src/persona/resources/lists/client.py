@@ -64,7 +64,7 @@ class ListsClient:
                 "filter[status]": filter_status,
             },
             headers=remove_none_from_headers(
-                {"key-inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"key-inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -83,7 +83,7 @@ class ListsClient:
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"lists/{list_id}"),
             headers=remove_none_from_headers(
-                {"key-inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"key-inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -107,7 +107,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -140,7 +140,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -173,7 +173,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -206,7 +206,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -239,7 +239,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -272,7 +272,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -305,7 +305,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -338,7 +338,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -371,7 +371,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -404,7 +404,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotence-key": idempotence_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -437,7 +437,7 @@ class ListsClient:
                 {
                     "key-inflection": key_inflection,
                     "idempotency-key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -478,7 +478,7 @@ class AsyncListsClient:
                     "filter[status]": filter_status,
                 },
                 headers=remove_none_from_headers(
-                    {"key-inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"key-inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )
@@ -500,7 +500,7 @@ class AsyncListsClient:
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"lists/{list_id}"),
                 headers=remove_none_from_headers(
-                    {"key-inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"key-inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )
@@ -525,7 +525,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -559,7 +559,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -593,7 +593,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -627,7 +627,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -661,7 +661,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -695,7 +695,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -729,7 +729,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -763,7 +763,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -797,7 +797,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -831,7 +831,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotence-key": idempotence_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -865,7 +865,7 @@ class AsyncListsClient:
                     {
                         "key-inflection": key_inflection,
                         "idempotency-key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,

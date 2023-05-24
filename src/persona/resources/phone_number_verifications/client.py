@@ -44,7 +44,7 @@ class PhoneNumberVerificationsClient:
                 {
                     "Key-Inflection": key_inflection,
                     "Idempotency-Key": idempotency_key,
-                    "Authorization": f"Bearer  {self.api_key}",
+                    "Authorization": f"Bearer {self.api_key}",
                 }
             ),
             timeout=60,
@@ -66,7 +66,7 @@ class PhoneNumberVerificationsClient:
                 f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}/confirm"
             ),
             json=jsonable_encoder({"data": data}),
-            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -86,7 +86,7 @@ class PhoneNumberVerificationsClient:
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}"),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
             ),
             timeout=60,
         )
@@ -112,7 +112,7 @@ class PhoneNumberVerificationsClient:
                 f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}/send-confirmation-code"
             ),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -147,7 +147,7 @@ class AsyncPhoneNumberVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": f"Bearer  {self.api_key}",
+                        "Authorization": f"Bearer {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -170,7 +170,7 @@ class AsyncPhoneNumberVerificationsClient:
                     f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}/confirm"
                 ),
                 json=jsonable_encoder({"data": data}),
-                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -191,7 +191,7 @@ class AsyncPhoneNumberVerificationsClient:
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"verification/phone-numbers/{verification_id}"),
                 headers=remove_none_from_headers(
-                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer {self.api_key}"}
                 ),
                 timeout=60,
             )
@@ -219,7 +219,7 @@ class AsyncPhoneNumberVerificationsClient:
                     f"verification/phone-numbers/{verification_id}/send-confirmation-code",
                 ),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
