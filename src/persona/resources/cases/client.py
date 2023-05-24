@@ -63,7 +63,9 @@ class CasesClient:
                 "filter[inquiry-id]": filter_inquiry_id,
                 "filter[report-id]": filter_report_id,
             },
-            headers=remove_none_from_headers({"key-inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"key-inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -86,7 +88,7 @@ class CasesClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "cases"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -103,7 +105,9 @@ class CasesClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}"),
-            headers=remove_none_from_headers({"key-inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"key-inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -126,7 +130,7 @@ class CasesClient:
             "PATCH",
             urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -149,7 +153,7 @@ class CasesClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}/add-objects"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -167,7 +171,7 @@ class CasesClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}/assign"),
             json=jsonable_encoder({"meta": meta}),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -190,7 +194,7 @@ class CasesClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}/set-status"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -238,7 +242,9 @@ class AsyncCasesClient:
                     "filter[inquiry-id]": filter_inquiry_id,
                     "filter[report-id]": filter_report_id,
                 },
-                headers=remove_none_from_headers({"key-inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"key-inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -262,7 +268,7 @@ class AsyncCasesClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "cases"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -280,7 +286,9 @@ class AsyncCasesClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}"),
-                headers=remove_none_from_headers({"key-inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"key-inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -304,7 +312,7 @@ class AsyncCasesClient:
                 "PATCH",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -328,7 +336,7 @@ class AsyncCasesClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}/add-objects"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -347,7 +355,7 @@ class AsyncCasesClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}/assign"),
                 json=jsonable_encoder({"meta": meta}),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -371,7 +379,7 @@ class AsyncCasesClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"cases/{case_id}/set-status"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:

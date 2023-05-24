@@ -43,7 +43,9 @@ class AccountsClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}"),
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -72,7 +74,11 @@ class AccountsClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -92,7 +98,9 @@ class AccountsClient:
         _response = httpx.request(
             "DELETE",
             urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}"),
-            headers=remove_none_from_headers({"Persona-Version": persona_version, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Persona-Version": persona_version, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -121,7 +129,9 @@ class AccountsClient:
                 "page[size]": page_size,
                 "filter[reference-id]": filter_reference_id,
             },
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -147,7 +157,11 @@ class AccountsClient:
             urllib.parse.urljoin(f"{self._environment.value}/", "accounts"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -177,7 +191,11 @@ class AccountsClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/consolidate"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -213,7 +231,11 @@ class AccountsClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/add-tag"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -243,7 +265,11 @@ class AccountsClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/remove-tag"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -273,7 +299,11 @@ class AccountsClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}/set-tags"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -291,7 +321,7 @@ class AccountsClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/print"),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -315,7 +345,9 @@ class AsyncAccountsClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}"),
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -348,7 +380,7 @@ class AsyncAccountsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -370,7 +402,9 @@ class AsyncAccountsClient:
             _response = await _client.request(
                 "DELETE",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"accounts/{account_id}"),
-                headers=remove_none_from_headers({"Persona-Version": persona_version, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Persona-Version": persona_version, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -400,7 +434,9 @@ class AsyncAccountsClient:
                     "page[size]": page_size,
                     "filter[reference-id]": filter_reference_id,
                 },
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -430,7 +466,7 @@ class AsyncAccountsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -465,7 +501,7 @@ class AsyncAccountsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -506,7 +542,7 @@ class AsyncAccountsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -541,7 +577,7 @@ class AsyncAccountsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -576,7 +612,7 @@ class AsyncAccountsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -596,7 +632,7 @@ class AsyncAccountsClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/print"),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:

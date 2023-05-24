@@ -19,7 +19,7 @@ class PrintVerificationsClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verifications/{verification_id}/print"),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -41,7 +41,7 @@ class AsyncPrintVerificationsClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"verifications/{verification_id}/print"),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:

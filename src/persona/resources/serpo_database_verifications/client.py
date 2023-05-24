@@ -38,7 +38,7 @@ class SerpoDatabaseVerificationsClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "verification/database-serpros"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -64,7 +64,11 @@ class SerpoDatabaseVerificationsClient:
                 f"{self._environment.value}/", f"verification/database-serpros/{verification_id}/submit"
             ),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -84,7 +88,9 @@ class SerpoDatabaseVerificationsClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verification/database-serpros/{verification_id}"),
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -114,7 +120,7 @@ class AsyncSerpoDatabaseVerificationsClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "verification/database-serpros"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -144,7 +150,7 @@ class AsyncSerpoDatabaseVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -166,7 +172,9 @@ class AsyncSerpoDatabaseVerificationsClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"verification/database-serpros/{verification_id}"),
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:

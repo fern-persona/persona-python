@@ -52,7 +52,11 @@ class InquiriesClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/resume"),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -72,7 +76,9 @@ class InquiriesClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}"),
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -92,7 +98,9 @@ class InquiriesClient:
             "PATCH",
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}"),
             json=jsonable_encoder({"data": data}),
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -111,7 +119,9 @@ class InquiriesClient:
         _response = httpx.request(
             "DELETE",
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}"),
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -138,7 +148,11 @@ class InquiriesClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/approve"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -168,7 +182,11 @@ class InquiriesClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/decline"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -202,7 +220,9 @@ class InquiriesClient:
                 "filter[account-id]": filter_account_id,
                 "filter[reference-id]": filter_reference_id,
             },
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -225,7 +245,11 @@ class InquiriesClient:
             urllib.parse.urljoin(f"{self._environment.value}/", "inquiries"),
             json=jsonable_encoder({"data": data}),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -255,7 +279,11 @@ class InquiriesClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/add-tag"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -285,7 +313,11 @@ class InquiriesClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/remove-tag"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -315,7 +347,11 @@ class InquiriesClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/set-tags"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -335,7 +371,9 @@ class InquiriesClient:
         _response = httpx.request(
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/expire"),
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -362,7 +400,11 @@ class InquiriesClient:
             urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/generate-one-time-link"),
             json=jsonable_encoder(_request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -397,7 +439,7 @@ class AsyncInquiriesClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -419,7 +461,9 @@ class AsyncInquiriesClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}"),
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -440,7 +484,9 @@ class AsyncInquiriesClient:
                 "PATCH",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}"),
                 json=jsonable_encoder({"data": data}),
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -460,7 +506,9 @@ class AsyncInquiriesClient:
             _response = await _client.request(
                 "DELETE",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}"),
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -491,7 +539,7 @@ class AsyncInquiriesClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -526,7 +574,7 @@ class AsyncInquiriesClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -562,7 +610,9 @@ class AsyncInquiriesClient:
                     "filter[account-id]": filter_account_id,
                     "filter[reference-id]": filter_reference_id,
                 },
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -589,7 +639,7 @@ class AsyncInquiriesClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -624,7 +674,7 @@ class AsyncInquiriesClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -659,7 +709,7 @@ class AsyncInquiriesClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -694,7 +744,7 @@ class AsyncInquiriesClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -716,7 +766,9 @@ class AsyncInquiriesClient:
             _response = await _client.request(
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"inquiries/{inquiry_id}/expire"),
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -747,7 +799,7 @@ class AsyncInquiriesClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,

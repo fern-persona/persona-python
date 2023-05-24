@@ -43,7 +43,7 @@ class ImportersClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"importers/{importer_id}"),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -64,7 +64,7 @@ class ImportersClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "importer/accounts"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -87,7 +87,7 @@ class ImportersClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/email-addresses"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -110,7 +110,7 @@ class ImportersClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/geolocations"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -133,7 +133,7 @@ class ImportersClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/government-id-numbers"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -156,7 +156,7 @@ class ImportersClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/ip-addresses"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -177,7 +177,7 @@ class ImportersClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/names"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -200,7 +200,7 @@ class ImportersClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/phone-numbers"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -221,7 +221,7 @@ class ImportersClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/faces"),
             json=jsonable_encoder(_request),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -245,7 +245,7 @@ class AsyncImportersClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"importers/{importer_id}"),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -269,7 +269,7 @@ class AsyncImportersClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "importer/accounts"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -293,7 +293,7 @@ class AsyncImportersClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/email-addresses"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -317,7 +317,7 @@ class AsyncImportersClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/geolocations"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -341,7 +341,7 @@ class AsyncImportersClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/government-id-numbers"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -365,7 +365,7 @@ class AsyncImportersClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/ip-addresses"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -389,7 +389,7 @@ class AsyncImportersClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/names"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -413,7 +413,7 @@ class AsyncImportersClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/phone-numbers"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -437,7 +437,7 @@ class AsyncImportersClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "importer/list-item/faces"),
                 json=jsonable_encoder(_request),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:

@@ -34,7 +34,11 @@ class DatabaseVerificationsClient:
             urllib.parse.urljoin(f"{self._environment.value}/", "verification/databases"),
             json=jsonable_encoder(request),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -57,7 +61,11 @@ class DatabaseVerificationsClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verification/databases/{verification_id}/submit"),
             headers=remove_none_from_headers(
-                {"Key-Inflection": key_inflection, "Idempotency-Key": idempotency_key, "Authorization": self.api_key}
+                {
+                    "Key-Inflection": key_inflection,
+                    "Idempotency-Key": idempotency_key,
+                    "Authorization": f"Bearer  {self.api_key}",
+                }
             ),
             timeout=60,
         )
@@ -75,7 +83,9 @@ class DatabaseVerificationsClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"verification/databases/{verification_id}"),
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -110,7 +120,7 @@ class AsyncDatabaseVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -138,7 +148,7 @@ class AsyncDatabaseVerificationsClient:
                     {
                         "Key-Inflection": key_inflection,
                         "Idempotency-Key": idempotency_key,
-                        "Authorization": self.api_key,
+                        "Authorization": f"Bearer  {self.api_key}",
                     }
                 ),
                 timeout=60,
@@ -158,7 +168,9 @@ class AsyncDatabaseVerificationsClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"verification/databases/{verification_id}"),
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:

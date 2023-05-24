@@ -31,7 +31,9 @@ class UserAuditLogsClient:
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", "user-audit-logs"),
             params={"page[before]": page_before, "page[after]": page_after, "page[size]": page_size},
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -48,7 +50,9 @@ class UserAuditLogsClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"user-audit-logs/{user_audit_log_id}"),
-            headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+            headers=remove_none_from_headers(
+                {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+            ),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -80,7 +84,9 @@ class AsyncUserAuditLogsClient:
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", "user-audit-logs"),
                 params={"page[before]": page_before, "page[after]": page_after, "page[size]": page_size},
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -98,7 +104,9 @@ class AsyncUserAuditLogsClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"user-audit-logs/{user_audit_log_id}"),
-                headers=remove_none_from_headers({"Key-Inflection": key_inflection, "Authorization": self.api_key}),
+                headers=remove_none_from_headers(
+                    {"Key-Inflection": key_inflection, "Authorization": f"Bearer  {self.api_key}"}
+                ),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:

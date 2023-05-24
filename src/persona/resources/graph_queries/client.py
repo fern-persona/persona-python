@@ -24,7 +24,7 @@ class GraphQueriesClient:
         _response = httpx.request(
             "GET",
             urllib.parse.urljoin(f"{self._environment.value}/", f"graph-queries/{graph_query_id}"),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -40,7 +40,7 @@ class GraphQueriesClient:
             "POST",
             urllib.parse.urljoin(f"{self._environment.value}/", "graph-queries"),
             json=jsonable_encoder({"data": data}),
-            headers=remove_none_from_headers({"Authorization": self.api_key}),
+            headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
             timeout=60,
         )
         if 200 <= _response.status_code < 300:
@@ -64,7 +64,7 @@ class AsyncGraphQueriesClient:
             _response = await _client.request(
                 "GET",
                 urllib.parse.urljoin(f"{self._environment.value}/", f"graph-queries/{graph_query_id}"),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
@@ -81,7 +81,7 @@ class AsyncGraphQueriesClient:
                 "POST",
                 urllib.parse.urljoin(f"{self._environment.value}/", "graph-queries"),
                 json=jsonable_encoder({"data": data}),
-                headers=remove_none_from_headers({"Authorization": self.api_key}),
+                headers=remove_none_from_headers({"Authorization": f"Bearer  {self.api_key}"}),
                 timeout=60,
             )
         if 200 <= _response.status_code < 300:
